@@ -23,7 +23,7 @@ if [ "$status" = "0" ]
 then
     gzip -c $tmpout | gpg -er dr_saaron@yahoo.com -su drsaaron@gmail.com -a > $tmpout.asc
     [ -d $finalout ] || mkdir $finalout
-   # mv $tmpout.asc $finalout
+    mv $tmpout.asc $finalout
 else
     echo "error creating file" 1>&2
     exit 1
