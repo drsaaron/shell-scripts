@@ -129,7 +129,11 @@ def absoluteValue(stack):
 def help(stack):
     print("Possible operators:")
 
-    for opsym in opmap.keys():
+    options = list(opmap.keys())
+    sortFunction = lambda o: opmap[o][2] 
+    options.sort(key = sortFunction)
+    
+    for opsym in options:
         print("\t" + opsym + "\t(" + opmap[opsym][1] + ")")
 
     sys.exit(0)
@@ -216,10 +220,10 @@ opmap = {
     "^": [ power, "exponentiation", 7 ],
     "INV": [ inverse, "inverse", 8 ],
     "ABS": [ absoluteValue, "absolute value", 9 ],
-    "help": [ help, "get help", 10 ],
-    "-h": [ help, "get help", 10 ],
-    "e": [ constE, "constant e", 11 ],
-    "PI": [ constPI, "constant pi", 12 ],
+    "help": [ help, "get help", 0 ],
+    "-h": [ help, "get help", 0 ],
+    "e": [ constE, "constant e", 51 ],
+    "PI": [ constPI, "constant pi", 52 ],
     "RAD2DEG": [ radiansToDegrees, "radians to degrees", 13 ],
     "DEG2RAD": [ degreesToRadians, "degrees to radians", 14 ],
     "LN": [ log, "natural log", 15 ],
