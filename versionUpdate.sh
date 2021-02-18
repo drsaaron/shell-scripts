@@ -15,6 +15,10 @@ fi
 
 [ "$pomVersion" != "" ] && git tag $pomVersion
 
-git push origin master --tags
+# figure out if the main branch is main or master
+[ "$(git branch | grep main)" = "" ] && mainBranch=master || mainBranch=main
+
+# push
+git push origin $mainBranch --tags
 
     
