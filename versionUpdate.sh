@@ -1,7 +1,19 @@
 #! /bin/sh
 
+while getopts :m: OPTION
+do
+    case $OPTION in
+        m)
+            commitMessage=$OPTARG
+            ;;
+        *)
+            echo "invalid option $OPTION" 1>&2
+            exit 1;
+    esac
+done
+
 git add .
-git commit -m 'update versions'
+git commit -m "${commitMessage:-version update}"
 
 if [ -f pom.xml ]
 then
