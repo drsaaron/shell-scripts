@@ -15,6 +15,7 @@ done
 git add .
 git commit -m "${commitMessage:-version update}"
 
+# find the version, from either pom or package.json
 if [ -f pom.xml ]
 then
     pomVersion=$(getPomAttribute.sh version)
@@ -25,6 +26,7 @@ else
     echo "no version found, so no tagging..." 1>&2
 fi
 
+# tag, if we found a version
 [ "$pomVersion" != "" ] && git tag $pomVersion
 
 # figure out if the main branch is main or master
