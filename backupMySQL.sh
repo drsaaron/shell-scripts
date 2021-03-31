@@ -1,4 +1,4 @@
-#! /bin/ksh
+#! /bin/sh
 
 # start the db
 dbps=$(docker ps | grep mysql1)
