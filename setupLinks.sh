@@ -5,12 +5,9 @@
 # ignore files like ., .., and .git
 thisDir=`pwd`
 
-echo .* | tr -s '[:blank:]' '[\n*]' | egrep -v '(\.|\.git)$' |
+echo .* | tr -s '[:blank:]' '\n' | egrep -v '^\.?\.(git)?$' |
     while read file
     do
-	if [ -f ~/$file ]
-	then
-	    echo rm ~/$file
-	    echo ln -s $thisDir/$file ~/$file
-	fi
+	[ -f ~/$file ] && echo rm ~/$file
+	echo ln -s $thisDir/$file ~/$file
     done
