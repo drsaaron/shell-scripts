@@ -7,7 +7,7 @@ do
 	    serverGroups=$OPTARG
 	    ;;
 	*)
-	    echo "invalid option $OPTION" 1>&2
+	    echo "invalid option $OPTARG" 1>&2
 	    echo "usage: $0 [-g groups]" 1>&2
 	    exit 1
     esac
