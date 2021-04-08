@@ -1,4 +1,4 @@
-#! /bin/ksh
+#! /bin/sh
 
 while getopts :g: OPTION
 do
