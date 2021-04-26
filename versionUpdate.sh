@@ -30,7 +30,7 @@ fi
 [ "$pomVersion" != "" ] && git tag $pomVersion
 
 # figure out if the main branch is main or master
-git branch | grep main && mainBranch=master || mainBranch=main
+git branch | grep -q main && mainBranch=main || mainBranch=master
 echo "main branch: $mainBranch"
 
 # push
