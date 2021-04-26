@@ -1,4 +1,4 @@
-#! /bin/ksh
+#! /bin/sh
 
 for file in /proc/*/status
 do
