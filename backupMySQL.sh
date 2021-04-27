@@ -1,8 +1,7 @@
 #! /bin/sh
 
 # start the db
-dbps=$(docker ps | grep mysql1)
-if [ "$dbps" = "" ]
+if ! docker ps | grep -q mysql1
 then
     echo "starting DB..."
     docker start mysql1
