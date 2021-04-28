@@ -1,14 +1,30 @@
 #! /bin/sh
 
-# get the value of an attribute from the pom.  We will onlyh look at the first
+# get the value of an attribute from the pom.  We will only look at the first
 # instance of that attribute in the file.
 
-if [ $# != 1 ]
+while getopts :p: OPTION
+do
+    case $OPTION in
+	p)
+	    pomFile=$OPTARG
+	    ;;
+	*)
+	    echo "invalid option $OPTARG" 1>&2
+	    exit 1
+	    ;;
+    esac
+done
+
+shift $((OPTIND - 1))
+
+tag=$1
+
+if [ -z "$tag" ]
 then
-    echo "usage: $0 <tag>" 1>&2
+    echo "usage: $0 [-p pomFile] <tag>" 1>&2
     exit 1
 fi
 
-tag=$1
-value=$(grep "^ *<$tag>" pom.xml | head -1 | sed -E -e "s%</?$tag>%%g" -e 's/ //g')
+value=$(grep "^ *<$tag>" ${pomFile:-pom.xml} | head -1 | sed -E -e "s%</?$tag>%%g" -e 's/ //g')
 echo $value
