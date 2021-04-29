@@ -21,7 +21,7 @@ then
     pomVersion=$(getPomAttribute.sh version)
 elif [ -f package.json ]
 then
-    pomVersion=$(perl -MJSON -ne 'BEGIN {$/=undef}; my $json = from_json($_); print $json->{version} . "\n";' package.json)
+    pomVersion=$(getPackageJsonAttribute.sh version)
 else
     echo "no version found, so no tagging..." 1>&2
 fi
