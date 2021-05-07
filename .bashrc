@@ -120,7 +120,7 @@ fi
 
 
 # begin scott customization
-export PATH=.:~/extJava/maven/apache-maven-3.6.3/bin:~/extJava/gradle/gradle-6.8.3/bin:~/shell:$PATH
+export PATH=.:~/extJava/maven/apache-maven-3.8.1/bin:~/extJava/gradle/gradle-7.0/bin:~/shell:$PATH
 
 function ff {
     find . -name $* -print
