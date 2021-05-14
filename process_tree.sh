@@ -9,6 +9,13 @@
 
 psFile=/tmp/psFile-$$
 
+# function to nicely format output.  see https://unix.stackexchange.com/questions/561577/awk-print-from-nth-column-to-last
+# for the explanation of part of the awk.
+formatOutput() {
+    # print the userID, process ID, parent proces ID, and process detail
+    echo $(awk -v n=8 '{ print $1, $2, $3; for (i=n; i<=NF;i++) printf "%s%s", $i, (i<NF ? OFS : ORS) }')
+}
+
 # Function to determine the children of a given process
 findChildrenPIDs() {
     parentPID=$1
@@ -28,7 +35,7 @@ printChildren() {
 
     # show the parent
     echo "$indent\c"
-    awk '$2 == "'$parentPID'" { print }' $psFile
+    awk '$2 == "'$parentPID'" { print }' $psFile | formatOutput
     
     # iterate over the children.
     for childPID in `findChildrenPIDs $parentPID`
@@ -41,9 +48,6 @@ printChildren() {
     done
 }
 
-# dump all processes to a temp file
-ps -ef > $psFile
-
 indent=""
 # get the base PID.
 if [ $# != 1 ]
@@ -52,6 +56,9 @@ then
     exit 1
 fi
 basePID=$1
+
+# dump all processes to a temp file
+ps -ef > $psFile
 
 # do it.
 printChildren $basePID
