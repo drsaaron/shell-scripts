@@ -7,10 +7,12 @@
 #
 #***************************************************************************
 
+psFile=/tmp/psFile-$$
+
 # Function to determine the children of a given process
 findChildrenPIDs() {
     parentPID=$1
-    ps -ef | awk '$3 == "'$parentPID'" { print $2 }'
+    awk '$3 == "'$parentPID'" { print $2 }' $psFile
 }
 
 # For an array of processes, print the process and it's children.
@@ -26,7 +28,7 @@ printChildren() {
 
     # show the parent
     echo "$indent\c"
-    ps -ef | awk '$2 == "'$parentPID'" { print }'
+    awk '$2 == "'$parentPID'" { print }' $psFile
     
     # iterate over the children.
     for childPID in `findChildrenPIDs $parentPID`
@@ -38,6 +40,9 @@ printChildren() {
 	)
     done
 }
+
+# dump all processes to a temp file
+ps -ef > $psFile
 
 indent=""
 # get the base PID.
@@ -51,3 +56,5 @@ basePID=$1
 # do it.
 printChildren $basePID
 
+# clean up
+rm -f $psFile

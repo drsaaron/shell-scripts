@@ -10,6 +10,7 @@ alias btip='atip | grep ^$(whoami)'
 alias rstrt='. ~/.bashrc'
 alias pk='rm -f *~ .*~'
 alias rm='rm -i'
+alias dstack='dirs -v'
 
 # history
 alias h='history'
