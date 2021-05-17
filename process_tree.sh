@@ -35,7 +35,7 @@ printChildren() {
     [ $parentPID = $$ ] && return  
 
     # show the parent
-    echo -n "$indent"
+    printf "$indent"
     awk '$2 == "'$parentPID'" { print }' $psFile | formatOutput
     
     # iterate over the children.
