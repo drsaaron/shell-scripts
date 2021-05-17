@@ -13,8 +13,8 @@ psFile=/tmp/psFile-$$
 # for the explanation of part of the awk.
 formatOutput() {
     # print the userID, process ID, parent proces ID, and process detail.  That's all there is, but
-    # this will reduce the whitespace
-    echo $(awk -v n=4 '{ print $1, $2, $3; for (i=n; i<=NF;i++) printf "%s%s", $i, (i<NF ? OFS : ORS) }')
+    # this will reduce the whitespace.  Plus it's an interesting use of awk.
+    awk -v n=4 '{ printf "%s %s %s%s", $1, $2, $3, OFS; for (i=n; i<=NF;i++) printf "%s%s", $i, (i<NF ? OFS : ORS) }'
 }
 
 # Function to determine the children of a given process
