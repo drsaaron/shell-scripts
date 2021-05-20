@@ -33,7 +33,15 @@ fi
 git branch | grep -q main && mainBranch=main || mainBranch=master
 echo "main branch: $mainBranch"
 
-# push
-git push origin $mainBranch --tags
+# sanity check that we are on the main branch.
+currentBranch=$(git branch --show-current)
+if [ "$currentBranch" = "$mainBranch" ]
+then
+    # push
+    git push origin $mainBranch --tags
+else
+    echo "currently on branch $currentBranch, so no automated push" 1>&2
+    exit 1
+fi
 
     
