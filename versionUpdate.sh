@@ -37,7 +37,7 @@ then
     fi
 
     # tag, if we found a version
-    if [ "$pomVersion" != "" ]
+    if [ -n "$pomVersion" ]
     then
 	git tag $pomVersion
 	tagFlag="--tags"
