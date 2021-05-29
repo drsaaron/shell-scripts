@@ -43,7 +43,7 @@ then
 	tagFlag="--tags"
     fi
 else
-    echo "currently on branch $curentBranch so not tagging"
+    echo "currently on branch $currentBranch so not tagging"
 fi
 
 # push
