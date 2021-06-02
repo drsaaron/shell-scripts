@@ -1,9 +1,12 @@
 #! /bin/sh
 
 shutdownDatabase() {
-    echo "stopping DB"
-    cd ~/local-mysql-docker
-    ./stopContainer.sh    
+    if [ -n "$dbstarted" ]
+    then
+	echo "stopping DB"
+	cd ~/local-mysql-docker
+	./stopContainer.sh
+    fi
 }
 
 # set a trap to shutdown the DB if we're aborted
@@ -14,8 +17,8 @@ if ! docker ps | grep -q mysql1
 then
     echo "starting DB..."
     docker start mysql1
-    sleep 10
     dbstarted=true
+    sleep 10
 fi
 
 # create backup file
@@ -41,4 +44,4 @@ else
 fi
 
 # shutdown DB, if we started it.
-[ "$dbstarted" = "true" ] && shutdownDatabase
+shutdownDatabase
