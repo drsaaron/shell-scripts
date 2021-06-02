@@ -1,0 +1,33 @@
+#! /bin/sh
+
+case $1 in
+    *.gpg|*.asc)
+	gpg -d "$1"
+	;;
+
+    *.gif|*.jpeg|*.jpg|*.pcd|*.png|*.tga|*.tiff|*.tif)
+	if [ -x /usr/bin/identify ]
+	then
+	    identify "$1"
+	elif [ -x /usr/bin/gm ]
+	then
+	    gm identify "$1"
+	else
+	    echo "no identify available" 1>&2
+	    echo "Install ImageMagick or GraphicsMagick to browse images" 1>&2
+	    exit 1
+	fi
+	;;
+
+    *.tar) tar tvvf "$1" ;;
+    *.tgz|*.tar.gz|*.tar.[zZ]) tar tzvvf "$1" ;;
+    *.tar.xz) tar Jtvvf "$1" ;;
+    *.xz|*.lzma) xz -dc -- "$1" ;;
+    *.tar.bz2|*.tbz2) bzip2 -dc -- "$1" | tar tvvf - ;;
+    *.[zZ]|*.gz) gzip -dc -- "$1" ;;
+    *.bz2) bzip2 -dc -- "$1" ;;
+    *.zip|*.jar|*.nbm) zipinfo -- "$1" ;;
+    *.rpm) rpm -qpivl --changelog -- "$1" ;;
+    
+	    
+esac
