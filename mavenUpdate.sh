@@ -17,7 +17,7 @@ mvn versions:use-next-versions
 
 if [ -n "$updateVersion" ]
 then
-    newVersion=$(getPomAttribute.sh version | sed 's/\./-/g' | awk -F- '{ printf "%d.%d-%s", $1,$2+1,$3}')
+    newVersion=$(getPomAttribute.sh version | sed -E -e 's/^([0-9\.]+)\.([0-9]+)-([A-Z]+)$/\1 \2 \3/' | awk '{printf "%s.%s-%s", $1, $2+1, $3}')
     echo "updating to version $newVersion"
     mvn versions:set -DnewVersion=$newVersion
 fi
