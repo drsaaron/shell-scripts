@@ -1,0 +1,26 @@
+#! /bin/sh
+
+if [ -f pom.xml ]
+then
+    imageName=$(getPomAttribute.sh artifactId | tr '[:upper:]' '[:lower:]')
+elif [ -f package.json ]
+then
+    imageName=$(getPackageJsonAttribute.sh name | tr '[:upper:]' '[:lower:]')
+else
+    echo "unable to determine image name" 1>&2
+    exit 1
+fi
+
+# keep the current and 4 previous versions.  This would be 7 lines in the
+# docker images command: header, 5 versions, and the latest version.
+for fullImageName in $imageName drsaaron/$imageName
+do
+    docker images $fullImageName | sed '1,7d' | awk '{ print $2 }' |
+	while read version
+	do
+	    echo "purging version $version"
+	    docker rmi $fullImageName:$version
+	done
+done
+
+    
