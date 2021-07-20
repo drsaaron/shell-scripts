@@ -30,9 +30,10 @@ do
 	
 	# if there's a dockerfile, build and push
 	if [ -f Dockerfile ]
-	    then
-		buildDocker.sh
-		pushDocker.sh
+	then
+	    pullLatestDocker.sh
+	    buildDocker.sh
+	    pushDocker.sh
 	fi
     fi
 done
