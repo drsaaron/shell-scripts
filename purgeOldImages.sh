@@ -1,16 +1,25 @@
-#! /bin/sh
+#! /bin/sh 
 
-while getopts :i: OPTION
+while getopts :ai: OPTION
 do
     case $OPTION in
 	i)
 	    imageName=$OPTARG
+	    ;;
+	a)
+	    doAll=1
 	    ;;
 	*)
 	    echo "unknown option $OPTARG" 1>&2
 	    exit 1
     esac
 done
+
+if [ -n "$doAll" ]
+then
+    docker images | sed 1d | awk '{ print $1 }' | sort | uniq | xargs -n1 $0 -i
+    exit $?
+fi
 
 [ -z "$imageName" ] && imageName=drsaaron/$(dockerImageName.sh)
 echo "cleaning up $imageName"
