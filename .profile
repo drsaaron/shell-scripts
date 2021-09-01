@@ -33,6 +33,7 @@ fi
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
+    alias less='less -R'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 

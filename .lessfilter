@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh 
 
 case $1 in
     *.gpg|*.asc)
@@ -28,6 +28,16 @@ case $1 in
     *.bz2) bzip2 -dc -- "$1" ;;
     *.zip|*.jar|*.nbm) zipinfo -- "$1" ;;
     *.rpm) rpm -qpivl --changelog -- "$1" ;;
-    
+
+    # various text file formats
+    # https://superuser.com/questions/117841/when-reading-a-file-with-less-or-more-how-can-i-get-the-content-in-colors
+    *.awk|*.groff|*.java|*.js|*.m4|*.php|*.pl|*.pm|*.pod|*.sh|\
+    *.ad[asb]|*.asm|*.inc|*.[ch]|*.[ch]pp|*.[ch]xx|*.cc|*.hh|\
+    *.lsp|*.l|*.pas|*.p|*.xml|*.xps|*.xsl|*.axp|*.ppd|*.pov|\
+    *.diff|*.patch|*.py|*.rb|*.sql|*.ebuild|*.eclass|*.json|*.html)
+        pygmentize -f 256 "$1";;
+
+    *.bashrc|*.bash_aliases|*.bash_environment|*.zshrc|*.profile|*.lessfilter)
+        pygmentize -f 256 -l sh "$1";;
 	    
 esac
