@@ -1,0 +1,9 @@
+---
+- hosts: "{{ serverGroups }}"
+  become: yes
+  
+  tasks:
+
+    # restart docker.sock
+    - name: restart docker.sock
+      shell: systemctl restart docker.socket
