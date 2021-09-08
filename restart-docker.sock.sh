@@ -1,6 +1,7 @@
 #! /bin/sh
 
-#export PATH=~/.local/bin:/bin:/usr/bin:/sbin:$HOME/shell:$PATH
+export PATH=~/.local/bin:/bin:/usr/bin:/sbin:$HOME/shell:$PATH
+export SSH_AUTH_SOCK=/run/user/$(id -u)/keyring/ssh
 
 cd $(dirname $0)
 
@@ -28,5 +29,9 @@ then
     exit 0
 fi
 
+# determine localhost IP address.  ansible doesn't seem to like using localhost when
+# run from cron
+ip=$(ifconfig wlo1 | grep inet | awk '$1=="inet" {print $2}')
+
 # run
-ansible-playbook -i restart-docker.sock.hosts restart-docker.sock.yml --user=$remoteUser -e 'ansible_python_interpreter=/usr/bin/python3' -e serverGroups=${serverGroups:-all} --extra-vars "ansible_become_pass='$sudoPassword'"
+ansible-playbook -i $ip, restart-docker.sock.yml --user=$remoteUser -e 'ansible_python_interpreter=/usr/bin/python3' -e serverGroups=${serverGroups:-all} --extra-vars "ansible_become_pass='$sudoPassword'"
