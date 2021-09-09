@@ -29,9 +29,9 @@ then
     exit 0
 fi
 
-# determine localhost IP address.  ansible doesn't seem to like using localhost when
-# run from cron
-ip=$(ifconfig wlo1 | grep inet | awk '$1=="inet" {print $2}')
+# run on localhost
+ansible-playbook -i localhost, restart-docker.sock.yml --user=$remoteUser -e 'ansible_python_interpreter=/usr/bin/python3' -e serverGroups=${serverGroups:-all} --extra-vars "ansible_become_pass='$sudoPassword'"
 
-# run
-ansible-playbook -i $ip, restart-docker.sock.yml --user=$remoteUser -e 'ansible_python_interpreter=/usr/bin/python3' -e serverGroups=${serverGroups:-all} --extra-vars "ansible_become_pass='$sudoPassword'"
+# record that we restarted
+restartedLog=/tmp/restart-docker.sock.restart.log
+date >> $restartedLog
