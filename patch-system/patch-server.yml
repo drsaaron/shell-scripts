@@ -10,6 +10,18 @@
         name: '*'
         state: latest
         update_cache: yes
+        autoremove: yes
+        autoclean: yes
+      register: result
+
+    # log what changed
+    - name: list installed and updated
+      shell: grep -E "^$(date +%Y-%m-%d).+ (install|upgrade) " /var/log/dpkg.log | cut -d " " -f 3-5
+      register: result
+
+    - name: show output
+      debug:
+        msg: "{{result.stdout_lines}}"
 
     # check if a reboot is required
     - name: check if reboot is needed
