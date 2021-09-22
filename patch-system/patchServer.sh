@@ -1,10 +1,13 @@
-#! /bin/sh
+#! /bin/sh 
 
-while getopts :g: OPTION
+while getopts :rg: OPTION
 do
     case $OPTION in
 	g)
 	    serverGroups=$OPTARG
+	    ;;
+	r)
+	    allowReboot="-e allowReboot=yes"
 	    ;;
 	*)
 	    echo "invalid option $OPTARG" 1>&2
@@ -18,4 +21,4 @@ remoteUser=familyadmin
 sudoPassword=$(pass localhost/$remoteUser)
 
 # run
-ansible-playbook -i patch-hosts patch-server.yml --user=$remoteUser -e 'ansible_python_interpreter=/usr/bin/python3' -e serverGroups=${serverGroups:-all} --extra-vars "ansible_become_pass='$sudoPassword'"
+ansible-playbook -i patch-hosts patch-server.yml --user=$remoteUser -e 'ansible_python_interpreter=/usr/bin/python3' $allowReboot -e serverGroups=${serverGroups:-all} --extra-vars "ansible_become_pass='$sudoPassword'"

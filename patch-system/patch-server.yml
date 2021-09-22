@@ -1,7 +1,10 @@
 ---
 - hosts: "{{ serverGroups }}"
   become: yes
-  
+
+  vars:
+    allowReboot: no
+    
   tasks:
 
     # upgrade all packages using apt
@@ -42,4 +45,4 @@
         msg: reboot required
         connect_timeout: 5
         reboot_timeout: 300
-      when: 1==0
+      when: allowReboot and reboot_required.stat.exists
