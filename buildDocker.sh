@@ -23,7 +23,7 @@ else
     exit 1
 fi
 
-imageName=drsaaron/$(dockerImageName.sh)
+imageName=$(dockerImageName.sh)
 
 # does the image already exist?
 if docker images $imageName | grep -q $version

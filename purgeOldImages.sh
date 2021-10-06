@@ -21,7 +21,7 @@ then
     exit $?
 fi
 
-[ -z "$imageName" ] && imageName=drsaaron/$(dockerImageName.sh)
+[ -z "$imageName" ] && imageName=$(dockerImageName.sh)
 echo "cleaning up $imageName"
 
 # keep the current and 4 previous versions.  This would be 7 lines in the

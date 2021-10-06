@@ -11,7 +11,7 @@ else
     exit 1
 fi
 
-imageName=drsaaron/$(dockerImageName.sh)
+imageName=$(dockerImageName.sh)
 
 echo "pushing $imageName:$version"
 docker push $imageName:$version
