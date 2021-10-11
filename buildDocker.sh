@@ -1,10 +1,16 @@
 #! /bin/sh
 
-while getopts :f OPTION
+while getopts :fn:v: OPTION
 do
     case $OPTION in
 	f)
 	    forceBuild=1
+	    ;;
+	n)
+	    imageName=$OPTARG
+	    ;;
+	v)
+	    version=$OPTARG
 	    ;;
 	*)
 	    echo "unknown option $OPTARG" 1>&2
@@ -12,18 +18,21 @@ do
     esac
 done
 
-if [ -f pom.xml ]
+if [ -z "$version" ]
 then
-    version=$(getPomAttribute.sh version | sed -e 's/-[A-Z]*$//')
-elif [ -f package.json ]
-then
-    version=$(getPackageJsonAttribute.sh version)
-else
-    echo "unable to determine version" 1>&2
-    exit 1
+    if [ -f pom.xml ]
+    then
+	version=$(getPomAttribute.sh version | sed -e 's/-[A-Z]*$//')
+    elif [ -f package.json ]
+    then
+	version=$(getPackageJsonAttribute.sh version)
+    else
+	echo "unable to determine version" 1>&2
+	exit 1
+    fi
 fi
 
-imageName=$(dockerImageName.sh)
+[ -z "$imageName" ] && imageName=$(dockerImageName.sh)
 
 # does the image already exist?
 if docker images $imageName | grep -q $version
