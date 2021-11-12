@@ -35,7 +35,7 @@ fi
 [ -z "$imageName" ] && imageName=$(dockerImageName.sh)
 
 # does the image already exist?
-if docker images $imageName | grep -q $version
+if docker images $imageName | grep -Fq $version
 then
     if [ -z "$forceBuild" ]
     then
