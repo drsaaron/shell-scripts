@@ -39,6 +39,7 @@ do
 done
 
 # show the projects that were updated
+printf "\nResults summary\n"
 if [ -s $trackFile ]
 then
     echo "projects updated:"
