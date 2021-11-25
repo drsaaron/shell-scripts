@@ -1,6 +1,7 @@
 #! /bin/sh 
 
-# determine if a specific file has uncommitted changes from git
+# determine if a specific file has uncommitted changes from git.  To facilitate scripting
+# if file is unchanged, then exit with a failure code, and if changed exit successfully.
 
 while getopts :f: OPTION
 do
