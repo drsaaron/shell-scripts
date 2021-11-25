@@ -18,7 +18,7 @@ mvn versions:use-next-versions
 # update version, but only if something has changed
 if [ -n "$updateVersion" ]
 then
-    if ! git diff-index --quiet HEAD pom.xml
+    if gitFileChanged.sh -f pom.xml
     then
 	newVersion=$(getPomAttribute.sh version | sed -E -e 's/^([0-9\.]+)\.([0-9]+)-([A-Z]+)$/\1 \2 \3/' | awk '{printf "%s.%s-%s", $1, $2+1, $3}')
 	echo "updating to version $newVersion"
