@@ -21,7 +21,7 @@ then
     exit 1
 fi
 
-lineCount=$(git status --porcelain=v1 | grep $file | wc -l)
+lineCount=$(git status --porcelain=v1 | grep $file | wc -l | awk '{ print $1 }')
 
 if [ "$lineCount" = 0 ]
 then
