@@ -31,3 +31,6 @@ alias r='fc -e -'
 
 # ssh
 alias ssh='ssh -X'
+
+# copy something to the xwindows clipboard, e.g. pass home | xc
+alias xc='perl -pe "s/\n$//" | xclip -selection c'
