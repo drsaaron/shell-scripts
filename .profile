@@ -46,7 +46,7 @@ fi
 export PAGER=less
 
 # begin scott customization
-export PATH=.:~/extJava/maven/apache-maven-3.8.1/bin:~/extJava/gradle/gradle-7.0/bin:~/shell:$PATH
+export PATH=.:~/extJava/maven/apache-maven-3.8.4/bin:~/extJava/gradle/gradle-7.3.3/bin:~/shell:$PATH
 
 function ff {
     find . -name $* -print
