@@ -55,6 +55,32 @@ import sys
 import math
 import re
 
+# define a simple stack class for floating point numbers
+class FloatingStack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, v):
+        self.stack.append(v)
+
+    def pop2(self):
+        rhs = float(self.stack.pop())
+        lhs = float(self.stack.pop())
+
+        return [lhs, rhs]
+
+    def pop(self):
+        return float(self.stack.pop())
+
+    def size(self):
+        return len(self.stack)
+
+    def isEmpty(self):
+        return self.size() == 0
+
+    def __str__(self):
+        return str(self.stack)
+        
 # if the given value a number
 def isNumber(value):
     # this doesn't seem straightforward in python. isnumeric only checks for integers.  But we need to support
@@ -69,62 +95,52 @@ def isNumber(value):
     # if we're here, not a number
     return False
 
-# wrappers around stack popping functions, to ensure correct casting to types
-def pop2(stack):
-    rhs = float(stack.pop())
-    lhs = float(stack.pop())
-
-    return [lhs, rhs]
-
-def pop(stack):
-    return float(stack.pop())
-
 # the math functions
 def plus(stack):
-    values = pop2(stack)
+    values = stack.pop2()
     lhs = values[0]
     rhs = values[1]
-    stack.append(lhs + rhs)
+    stack.push(lhs + rhs)
 
 def minus(stack):
-    values = pop2(stack)
+    values = stack.pop2()
     lhs = values[0]
     rhs = values[1]
-    stack.append(lhs - rhs)
+    stack.push(lhs - rhs)
 
 def times(stack):
-    values = pop2(stack)
+    values = stack.pop2()
     lhs = values[0]
     rhs = values[1]
-    stack.append(lhs * rhs)
+    stack.push(lhs * rhs)
 
 def divide(stack):
-    values = pop2(stack)
+    values = stack.pop2()
     lhs = values[0]
     rhs = values[1]
-    stack.append(lhs / rhs)
+    stack.push(lhs / rhs)
 
 def square(stack):
-    x = pop(stack)
-    stack.append(x * x)
+    x = stack.pop()
+    stack.push(x * x)
 
 def squareRoot(stack):
-    x = pop(stack)
-    stack.append(math.sqrt(x))
+    x = stack.pop()
+    stack.push(math.sqrt(x))
 
 def power(stack):
-    values = pop2(stack)
+    values = stack.pop2()
     lhs = values[0]
     rhs = values[1]
-    stack.append(lhs ** rhs)
+    stack.push(lhs ** rhs)
 
 def inverse(stack):
-    x = pop(stack)
-    stack.append(1. / x)
+    x = stack.pop()
+    stack.push(1. / x)
 
 def absoluteValue(stack):
-    x = pop(stack)
-    stack.append(abs(x))
+    x = stack.pop()
+    stack.push(abs(x))
 
 def help(stack):
     print("Possible operators:")
@@ -139,42 +155,42 @@ def help(stack):
     sys.exit(0)
               
 def constE(stack):
-    stack.append(math.e)
+    stack.push(math.e)
 
 def constPI(stack):
-    stack.append(math.pi)
+    stack.push(math.pi)
 
 def radiansToDegrees(stack):  # could be done math.degrees
-    x = pop(stack)
-    stack.append(math.degrees(x))
+    x = stack.pop()
+    stack.push(math.degrees(x))
 
 def degreesToRadians(stack):  # could be done match.radians
-    x = pop(stack)
-    stack.append(math.radians(x))
+    x = stack.pop()
+    stack.push(math.radians(x))
 
 def log(stack):
-    x = pop(stack)
-    stack.append(math.log(x))
+    x = stack.pop()
+    stack.push(math.log(x))
 
 def log10(stack):
-    x = pop(stack)
-    stack.append(math.log(x, 10))  # python has a function for arbitrary base, unlike perl
+    x = stack.pop()
+    stack.push(math.log(x, 10))  # python has a function for arbitrary base, unlike perl
 
 def powerE(stack):
-    x = pop(stack)
-    stack.append(math.exp(x))
+    x = stack.pop()
+    stack.push(math.exp(x))
 
 def sine(stack):
-    x = pop(stack)
-    stack.append(math.sin(x))
+    x = stack.pop()
+    stack.push(math.sin(x))
 
 def cosine(stack):
-    x = pop(stack)
-    stack.append(math.cos(x))
+    x = stack.pop()
+    stack.push(math.cos(x))
 
 def tangent(stack):
-    x = pop(stack)
-    stack.append(math.tan(x))
+    x = stack.pop()
+    stack.push(math.tan(x))
 
 def cotangent(stack):
     tangent(stack)
@@ -185,29 +201,29 @@ def secant(stack):
     inverse(stack)
 
 def arcCosine(stack):
-    x = pop(stack)
-    stack.append(math.acos(x))
+    x = stack.pop()
+    stack.push(math.acos(x))
 
 def arcSine(stack):
-    x = pop(stack)
-    stack.append(math.asin(x))
+    x = stack.pop()
+    stack.push(math.asin(x))
 
 def arcTangent2(stack):
-    values = pop2(stack)
+    values = stack.pop2()
     lhs = values[0]
     rhs = values[1]
-    stack.append(math.atan2(lhs, rhs))
+    stack.push(math.atan2(lhs, rhs))
 
 def cosecant(stack):
     sine(stack)
     inverse(stack)
 
 def roundToInt(stack):
-    x = pop(stack)
-    stack.append(round(x))
+    x = stack.pop()
+    stack.push(round(x))
     
 # a stack to hold values being worked on
-opstack = []
+opstack = FloatingStack()
 
 # map operators to functions that implement them
 opmap = {
@@ -248,7 +264,7 @@ for i in range(1, argCount):
 
     # if this is a number, it must be a value to push to the stack
     if isNumber(token):
-        opstack.append(token)
+        opstack.push(token)
         continue
 
     # if we're here, it must be an operator to try to carry it out
@@ -259,4 +275,7 @@ for i in range(1, argCount):
 finalValue = opstack.pop()
 print("  Answer = " + str(finalValue))
 
+# sanity check that the stack is empty
+if not opstack.isEmpty():
+    print("(warning: stack not empty so maybe you missed something)")
     
