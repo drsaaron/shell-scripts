@@ -48,6 +48,9 @@ export PAGER=less
 # begin scott customization
 export PATH=.:~/extJava/alternatives/maven/bin:~/extJava/alternatives/gradle/bin:~/shell:$PATH
 
+# add python modules
+export PYTHONPATH=~/shell/python_modules:$PYTHONPATH
+
 function ff {
     find . -name $* -print
 }
