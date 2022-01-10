@@ -54,6 +54,7 @@
 import sys
 import math
 import re
+import number_recognition
 
 # define a simple stack class for floating point numbers
 class FloatingStack:
@@ -81,20 +82,6 @@ class FloatingStack:
     def __str__(self):
         return str(self.stack)
         
-# if the given value a number
-def isNumber(value):
-    # this doesn't seem straightforward in python. isnumeric only checks for integers.  But we need to support
-    # float as well, not to mention scientific notation. use regexp, similar to my perl NumberRecognition::is_decimal
-    # handle scientific notation by stripping off the expoential part
-    value = re.sub("[Ee][+-]?\d+\s*$", "", value)
-    
-    # now the rest
-    if re.match("^\s*[+-]?\d*\.?\d+\s*$", value) or \
-       re.match("^\s*[+-]?\d+\.?\d*\s*$", value): return True
-
-    # if we're here, not a number
-    return False
-
 # the math functions
 def plus(stack):
     values = stack.pop2()
@@ -263,7 +250,7 @@ for i in range(1, argCount):
     token = sys.argv[i]
 
     # if this is a number, it must be a value to push to the stack
-    if isNumber(token):
+    if number_recognition.isDecimal(token):
         opstack.push(token)
         continue
 
