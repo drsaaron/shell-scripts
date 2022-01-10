@@ -1,6 +1,8 @@
-#! /bin/sh
+#! /bin/sh 
 
+# manage my extJava installations
 EXT_JAVA_DIR=~/extJava
+ALT_EXT_JAVA_DIR=$EXT_JAVA_DIR/alternatives
 
 action=list
 
@@ -51,8 +53,22 @@ fi
 
 # do the needful
 cd $EXT_JAVA_DIR
-if [ "$action" = "list" ]
-then
-    cd $tool
-    ls -tr | nl
-fi
+case $action in
+    list)	
+	cd $tool
+	ls -tr | nl
+	;;
+
+    update)
+	if [ -d $tool/$version ]
+	then
+	    rm -f $ALT_EXT_JAVA_DIR/$tool
+	    ln -s $EXT_JAVA_DIR/$tool/$version $ALT_EXT_JAVA_DIR/$tool
+	    echo "$tool updated to $tool/$version"
+	else
+	    echo "$tool installation in $tool/$version not found" 1>&2
+	    exit 1
+	fi
+	;;
+esac
+
