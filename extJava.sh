@@ -57,6 +57,8 @@ case $action in
     list)	
 	cd $tool
 	ls -tr | nl
+	currentVersion=$(basename $(ls -al $ALT_EXT_JAVA_DIR/$tool | sed 's/^.*->//'))
+	printf "\ncurrent version: $currentVersion\n"
 	;;
 
     update)
