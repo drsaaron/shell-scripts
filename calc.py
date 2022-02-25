@@ -65,12 +65,18 @@ class FloatingStack:
         self.stack.append(v)
 
     def pop2(self):
+        if self.size() < 2:
+            raise IndexError('empty stack')
+        
         rhs = float(self.stack.pop())
         lhs = float(self.stack.pop())
 
         return [lhs, rhs]
 
     def pop(self):
+        if self.isEmpty():
+            raise IndexError('empty stack')
+        
         return float(self.stack.pop())
 
     def size(self):
@@ -255,8 +261,18 @@ for i in range(1, argCount):
         continue
 
     # if we're here, it must be an operator to try to carry it out
-    opfunc = opmap[token][0]
-    opfunc(opstack)
+    try:
+        opfunc = opmap[token][0]
+        opfunc(opstack)
+    except IndexError:
+        print("empty stack")
+        sys.exit(1)
+        
+    except Exception as e:
+        print("invalid operator " + token)
+        print("OS error: {0}".format(e))
+        help(opstack)
+        sys.exit(1)
 
 # get the final value off the stack
 finalValue = opstack.pop()
