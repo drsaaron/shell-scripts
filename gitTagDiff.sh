@@ -3,7 +3,7 @@
 if [ -f pom.xml ]
 then
     currentVersion=$(getPomAttribute.sh version)
-    previousVersion=$(echo $currentVersion | awk -F'[.-]' '{ printf "%s.%s.%s-%s", $1, $2, $3-1, $4 }')
+    previousVersion=$(echo $currentVersion | awk -F'[.-]' '{ printf "%s.%s-%s", $1, $2-1, $3 }')
 elif [ -f package.json ]
 then
     currentVersion=$(getPackageJsonAttribute.sh version)
