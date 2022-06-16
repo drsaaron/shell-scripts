@@ -24,6 +24,7 @@ alias rstrt='. ~/.bashrc'
 alias pk='rm -f *~ .*~'
 alias rm='rm -i'
 alias dstack='dirs -v'
+alias ddiff='diff -rq'  # directory difference
 
 # history
 alias h='history'
