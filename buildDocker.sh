@@ -1,6 +1,6 @@
-#! /bin/sh
+#! /bin/sh 
 
-while getopts :fn:v: OPTION
+while getopts :fn:v:u:U:g:G: OPTION
 do
     case $OPTION in
 	f)
@@ -11,6 +11,18 @@ do
 	    ;;
 	v)
 	    version=$OPTARG
+	    ;;
+	u)
+	    luid=$OPTARG
+	    ;;
+	U)
+	    luname=$OPTARG
+	    ;;
+	g)
+	    lgid=$OPTARG
+	    ;;
+	G)
+	    lgname=$OPTARG
 	    ;;
 	*)
 	    echo "unknown option $OPTARG" 1>&2
@@ -46,6 +58,13 @@ then
     fi
 fi
 
+# setup the local user, if defined
+USER_ARGS=
+[ -n "$luid" ] && USER_ARGS="$USER_ARGS --build-arg LOCAL_USER=$luid"
+[ -n "$luname" ] && USER_ARGS="$USER_ARGS --build-arg LOCAL_USER_ID=$luname"
+[ -n "$lgid" ] && USER_ARGS="$USER_ARGS --build-arg LOCAL_GROUP=$lgid"
+[ -n "$lgname" ]  && USER_ARGS="$USER_ARGS --build-arg LOCAL_GROUP_ID=$lgname"
+
 echo "building $imageName:$version"
-docker build -t $imageName .
+docker build $USER_ARGS -t $imageName .
 docker tag $imageName $imageName:$version
