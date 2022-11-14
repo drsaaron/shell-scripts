@@ -34,7 +34,8 @@ if [ -z "$version" ]
 then
     if [ -f pom.xml ]
     then
-	version=$(getPomAttribute.sh version | sed -e 's/-[A-Z]*$//')
+	pomVersion=$(getPomAttribute.sh version)
+	version=${pomVersion%-[A-Z]*}
     elif [ -f package.json ]
     then
 	version=$(getPackageJsonAttribute.sh version)
@@ -45,6 +46,8 @@ then
 fi
 
 [ -z "$imageName" ] && imageName=$(dockerImageName.sh)
+
+echo "building $imageName:$version"
 
 # does the image already exist?
 if docker images $imageName | grep -Fq $version
@@ -65,6 +68,5 @@ USER_ARGS=
 [ -n "$lgid" ] && USER_ARGS="$USER_ARGS --build-arg LOCAL_GROUP=$lgid"
 [ -n "$lgname" ]  && USER_ARGS="$USER_ARGS --build-arg LOCAL_GROUP_ID=$lgname"
 
-echo "building $imageName:$version"
 docker build $USER_ARGS -t $imageName .
 docker tag $imageName $imageName:$version
