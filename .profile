@@ -71,3 +71,7 @@ PERL_MM_OPT="INSTALL_BASE=/home/scott/perl5"; export PERL_MM_OPT;
 
 # unique-ify the path
 PATH=$(uniqueList.sh "$PATH")
+
+LAPTOP_IP=192.168.1.20
+alias laptop='ssh scott@$LAPTOP_IP'
+
