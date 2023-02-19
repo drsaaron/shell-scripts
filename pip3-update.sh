@@ -1,6 +1,7 @@
 #! /bin/sh
 
-pip3 list --outdated --format=freeze |
+pip3 list --outdated |
+    sed -e '1,2d' |
     grep -v '^\-e' |
-    cut -d = -f 1 |
+    awk '{print $1}' |
     xargs -I % sh -c "echo \"updating %\"; pip3 install -U %"
