@@ -1,5 +1,28 @@
 #! /bin/sh
 
+archiveStarted=false
+startArchive() {
+    if docker ps | grep -q blazararchive
+    then
+	echo "blazar archive already running...."
+    else
+	echo "starting blazar archive"
+	docker start blazararchive
+	archiveStarted=true
+    fi
+}
+
+stopArchive() {
+    if [ "$archiveStarted" = "true" ]
+    then
+	echo "stopping blazar archive"
+	docker stop blazararchive
+	archiveStarted=false
+    fi
+}
+
+startArchive
+
 # this script will update the pom for all quote of the day related repos
 
 NBDIR=~/NetBeansProjects
@@ -23,17 +46,21 @@ do
 	
 	# build
 	echo "building $project"
-	mvn clean install
-	
-	# push to git
-	versionUpdate.sh
-	
-	# if there's a dockerfile, build and push
-	if [ -f Dockerfile ]
+	if mvn clean install deploy
 	then
-	    pullLatestDocker.sh
-	    buildDocker.sh
-	    pushDocker.sh
+	    # push to git
+	    versionUpdate.sh
+	
+	    # if there's a dockerfile, build and push
+	    if [ -f Dockerfile ]
+	    then
+		pullLatestDocker.sh
+		buildDocker.sh
+		pushDocker.sh
+	    fi
+	else
+	    echo "error building $project" 1>&2
+	    exit 1
 	fi
     fi
 done
@@ -48,4 +75,5 @@ else
     echo "no projects updated"
 fi
 
-	    
+stopArchive
+

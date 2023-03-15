@@ -1,4 +1,4 @@
-#! /bin/sh 
+#! /bin/sh
 
 while getopts :fn:v:u:U:g:G: OPTION
 do
@@ -68,5 +68,5 @@ USER_ARGS=
 [ -n "$lgid" ] && USER_ARGS="$USER_ARGS --build-arg LOCAL_GROUP=$lgid"
 [ -n "$lgname" ]  && USER_ARGS="$USER_ARGS --build-arg LOCAL_GROUP_ID=$lgname"
 
-docker build $USER_ARGS -t $imageName .
+docker build --network host $USER_ARGS -t $imageName .
 docker tag $imageName $imageName:$version
