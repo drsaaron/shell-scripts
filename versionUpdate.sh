@@ -1,11 +1,14 @@
 #! /bin/sh
 
-while getopts :m: OPTION
+while getopts :m:t: OPTION
 do
     case $OPTION in
         m)
             commitMessage=$OPTARG
             ;;
+	t)
+	    tag=$OPTARG
+	    ;;
         *)
             echo "invalid option $OPTION" 1>&2
             exit 1;
@@ -44,6 +47,14 @@ then
     fi
 else
     echo "currently on branch $currentBranch so not tagging"
+fi
+
+# apply the requested tag, if there is one
+if [ -n "$tag" ]
+then
+    echo "tagging with $tag as requested"
+    git tag $tag
+    [ -z "$tagFlag" ] && tagFlag="--tags"
 fi
 
 # push
