@@ -74,4 +74,7 @@ PATH=$(uniqueList.sh "$PATH")
 
 LAPTOP_IP=192.168.1.20
 alias laptop='ssh scott@$LAPTOP_IP'
+LAPTOP_DIR=/run/user/1001/gvfs/smb-share:server=$LAPTOP_IP,share=scott
 
+# convenience alias to mount the laptop filesystem
+alias mntlaptop="gio mount smb://$LAPTOP_IP/scott"
