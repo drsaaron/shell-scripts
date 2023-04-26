@@ -48,8 +48,9 @@ export PAGER=less
 # begin scott customization
 export PATH=.:~/extJava/alternatives/maven/bin:~/extJava/alternatives/gradle/bin:~/shell:$PATH
 
-# add python modules
+# add python modules & python environment (see https://www.omgubuntu.co.uk/2023/04/pip-install-error-externally-managed-environment-fix)
 export PYTHONPATH=~/shell/python_modules:$PYTHONPATH
+export PATH=~/python-user/bin:$PATH
 
 function ff {
     find . -name $* -print
