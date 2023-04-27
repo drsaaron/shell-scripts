@@ -15,3 +15,5 @@ imageName=$(dockerImageName.sh)
 
 echo "pushing $imageName:$version"
 docker push $imageName:$version
+docker push $imageName:latest
+
