@@ -74,8 +74,8 @@ PERL_MM_OPT="INSTALL_BASE=/home/scott/perl5"; export PERL_MM_OPT;
 PATH=$(uniqueList.sh "$PATH")
 
 LAPTOP_IP=192.168.1.20
-alias laptop='ssh scott@$LAPTOP_IP'
-LAPTOP_DIR=/run/user/1001/gvfs/smb-share:server=$LAPTOP_IP,share=scott
+alias laptop="ssh $(whoami)@$LAPTOP_IP"
+LAPTOP_DIR=/run/user/1001/gvfs/smb-share:server=$LAPTOP_IP,share=$(whoami)
 
 # convenience alias to mount the laptop filesystem
 alias mntlaptop="gio mount smb://$LAPTOP_IP/scott"
