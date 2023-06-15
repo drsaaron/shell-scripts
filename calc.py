@@ -49,6 +49,10 @@
 #   PI
 #   e
 
+# Miscellaneous operators:
+
+#   PUSH    -- push the top value of the stack onto the stack again, to allow for sub-operations
+
 #***************************************************************************
 
 import sys
@@ -134,6 +138,14 @@ def inverse(stack):
 def absoluteValue(stack):
     x = stack.pop()
     stack.push(abs(x))
+
+# for example 1 2 + DEG2RAD PUSH SIN would evaluate deg2rad(1 + 2) / sin(deg2rad(1 + 2))
+# by pushing the intermediate value (deg2rad(1+2)) to the stack without losing the value
+# when the stack is popped for the SIN operation.
+def copyTopPush(stack):
+    x = stack.pop()
+    stack.push(x)
+    stack.push(x)
 
 def help(stack):
     print("Possible operators:")
@@ -247,7 +259,8 @@ opmap = {
     "ACOS": [ arcCosine, "arc-cosine", 24 ],
     "ASIN": [ arcSine, "arc-sine", 25 ],
     "ATAN2": [ arcTangent2, "arc-tangent, 2 arg", 26 ],
-    "ROUND": [ roundToInt, "round to int", 27 ]
+    "ROUND": [ roundToInt, "round to int", 27 ],
+    "PUSH": [ copyTopPush, "copy stack top back to stack", 70 ]
 }
 
 # iterate over the command line, processing as we go
