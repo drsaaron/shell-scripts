@@ -139,7 +139,7 @@ def absoluteValue(stack):
     x = stack.pop()
     stack.push(abs(x))
 
-# for example 1 2 + DEG2RAD PUSH SIN would evaluate deg2rad(1 + 2) / sin(deg2rad(1 + 2))
+# for example 1 2 + DEG2RAD PUSH SIN / would evaluate deg2rad(1 + 2) / sin(deg2rad(1 + 2))
 # by pushing the intermediate value (deg2rad(1+2)) to the stack without losing the value
 # when the stack is popped for the SIN operation.
 def copyTopPush(stack):
