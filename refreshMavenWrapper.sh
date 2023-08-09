@@ -1,5 +1,9 @@
 #! /bin/sh 
 
+getMavenVersion() {
+    grep '^Apache' | awk '{print $3}'
+}
+
 while getopts :v: OPTION
 do
     case $OPTION in
@@ -13,7 +17,7 @@ do
 done
 
 # what's the current installed version, if not supplied
-[ -z "$version" ] && version=$(mvn --version | grep '^Apache' | awk '{print $3}')
+[ -z "$version" ] && version=$(mvn --version | getMavenVersion)
 
 # find all wrappers under ~/NetBeansProjects
 for wrapper in ~/NetBeansProjects/*/mvnw
@@ -21,7 +25,7 @@ do
     echo "looking at $wrapper"
 
     # what's the wrapper version
-    wrapperVersion=$($wrapper --version | grep '^Apache' | awk '{print $3}')
+    wrapperVersion=$($wrapper --version | getMavenVersion)
 
     # if the wrapper version is older than current version, update.  To do this, echo both $version
     # and $wrapperVersion, and sort such that the newer version is first.
