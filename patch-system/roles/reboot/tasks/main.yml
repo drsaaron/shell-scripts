@@ -1,0 +1,21 @@
+# check if a reboot is required
+- name: check if reboot is needed
+  stat:
+    path: /var/run/reboot-required
+    get_md5: no
+  register: reboot_required
+    
+# show a message f a reboot is needed
+- name: reboot needed message
+  debug:
+    msg: reboot needed
+  when: reboot_required.stat.exists
+    
+# do the reboot
+- name: reboot system
+  reboot:
+    msg: reboot required
+    connect_timeout: 5
+    reboot_timeout: 300
+  when: allowReboot and reboot_required.stat.exists
+    
