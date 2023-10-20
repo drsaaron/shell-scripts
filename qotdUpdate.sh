@@ -30,4 +30,4 @@ startDB
 # set a trap so that when this process exits, if the DB was started by it the DB will also be stopped
 trap "stopDB; exit 0" INT EXIT
 
-bulkMavenUpdate.sh BlazarUserManagement-tokenUtil BlazarUserManagement-serverUtil BlazarUserManagement BlazarCryptoFile BlazarFacebookClient BlazarJobManager BlazarMailer BlazarMailer-springImpl DateServices TelegramClient QuoteOfTheDay-data QuoteOfTheDay-data-jpaImpl QuoteOfTheDay-process QuoteOfTheDayServices QuoteOfTheDayJob
+bulkMavenUpdate.sh BlazarCryptoFile BlazarUserManagement-tokenUtil BlazarUserManagement-serverUtil BlazarUserManagement BlazarFacebookClient BlazarJobManager BlazarMailer BlazarMailer-springImpl DateServices TelegramClient QuoteOfTheDay-data QuoteOfTheDay-data-jpaImpl QuoteOfTheDay-process QuoteOfTheDayServices QuoteOfTheDayJob
