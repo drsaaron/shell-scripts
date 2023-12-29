@@ -13,7 +13,7 @@ do
 done
 
 mvn versions:update-parent
-mvn versions:use-next-versions
+mvn versions:use-latest-releases
 
 # update version, but only if something has changed
 if [ -n "$updateVersion" ]
