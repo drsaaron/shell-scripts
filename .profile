@@ -78,6 +78,7 @@ export PATH=/snap/bin:$PATH
 
 LAPTOP_IP=192.168.1.20
 alias laptop="ssh $(whoami)@$LAPTOP_IP"
+alias laptopx="laptop xterm -fg yellow -font 9x15"
 LAPTOP_DIR=/run/user/1001/gvfs/smb-share:server=$LAPTOP_IP,share=$(whoami)
 
 # convenience alias to mount the laptop filesystem
