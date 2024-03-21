@@ -2,7 +2,6 @@
 - name: check if reboot is needed
   stat:
     path: /var/run/reboot-required
-    get_md5: no
   register: reboot_required
     
 # show a message f a reboot is needed
