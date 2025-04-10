@@ -20,6 +20,8 @@ do
     esac
 done
 
+shift $((OPTIND - 1))
+
 [ -z "$appDirectory" ] && appDirectory=$(pwd)
 
 pomFile=$appDirectory/pom.xml
@@ -30,4 +32,4 @@ appEnv=${ENVIRONMENT:-test}
 artifact=$(getPomAttribute.sh -p $pomFile artifactId)
 version=$(getPomAttribute.sh -p $pomFile version)
 
-java -jar $appDirectory/target/$artifact-$version.jar --spring.config.name=application,$appEnv
+java -Dspring.config.name=application,$appEnv -jar $appDirectory/target/$artifact-$version.jar "$@"
