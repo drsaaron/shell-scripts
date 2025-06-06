@@ -7,3 +7,4 @@ container=yahtzee
 docker ps | grep -q $container && action=stop || action=start
 echo "$action-ing $container"
 docker $action $container
+docker $action mongodb
