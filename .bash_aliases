@@ -35,3 +35,6 @@ alias ssh='ssh -X'
 
 # copy something to the xwindows clipboard, e.g. pass home | xc
 alias xc='tr -d \\n | xclip -selection c'
+
+# start netbeans.  Use the most recent version
+alias nb="~/netbeans/$(ls ~/netbeans | sort | tail -1)/netbeans/bin/netbeans"
