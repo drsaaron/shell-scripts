@@ -83,3 +83,32 @@ LAPTOP_DIR=/run/user/1001/gvfs/smb-share:server=$LAPTOP_IP,share=$(whoami)
 
 # convenience alias to mount the laptop filesystem
 alias mntlaptop="gio mount smb://$LAPTOP_IP/scott"
+
+# setup ssh
+function setupSshAgent {
+    if [ -n "$SSH_CLIENT" ]
+    then
+	propsFile=/tmp/ssh-agent.env
+	if [ -f $propsFile ]
+	then
+            . $propsFile
+            if [ -S $SSH_AUTH_SOCK ]
+            then
+		echo "re-using existing SSH agent"
+		return
+            else
+		echo "socket doesn't exist"
+            fi
+	fi
+
+	# if we're here, either the props file doesn't exist or the socket therein
+	# doesn't exist, so start one
+	eval $(ssh-agent -s)
+	ssh-add $(ls ~/.ssh/id* | grep -v pub)
+	
+	# save the properties for the next session
+	env|grep SSH|grep -E '(AUTH|AGENT)' | sed 's/^/export /g' > $propsFile
+    fi
+}
+
+setupSshAgent
