@@ -1,4 +1,4 @@
-#! /bin/sh 
+#! /bin/sh
 
 while getopts :u:th: OPTION
 do
@@ -23,4 +23,4 @@ password=$(pass blazar/$me)
 
 [ ${environ:-prod} = "prod" ] && port=4500 || port=45000
 
-curl -H 'Content-Type: application/json' -X POST -d '{"username": "'$me'", "password": "'$password'" }' http://${host:-localhost}:$port/authenticate 2>/dev/null | perl -MJSON -ne 'my $r = from_json($_); print $r->{jwttoken} . "\n"; '
+curl -H 'Content-Type: application/json' -X POST -d '{"username": "'$me'", "password": "'$password'" }' http://${host:-localhost}:$port/authenticate 2>/dev/null | jq -r '.jwttoken' # perl -MJSON -ne 'my $r = from_json($_); print $r->{jwttoken} . "\n"; '
