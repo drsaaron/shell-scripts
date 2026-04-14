@@ -19,7 +19,7 @@ docker images -qf "dangling=true" > $tmpFile
 
 if [ -s $tmpFile ]
 then
-    docker rmi -f $(cat $tmpFile)
+    xargs docker rmi -f < $tmpFile
 else
     echo "no images to purge." 1>&2
 fi

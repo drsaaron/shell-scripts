@@ -1,3 +1,3 @@
 #! /bin/sh
 
-bulkMavenUpdate.sh BlazarCryptoFile FancyTab LookAndFeelManager ExceptionDisplay BlazarSQL-databaseObjects BlazarSQL
+bulkMavenUpdate.sh blazarjavaparent BlazarCryptoFile FancyTab LookAndFeelManager ExceptionDisplay BlazarSQL-databaseObjects BlazarSQL
