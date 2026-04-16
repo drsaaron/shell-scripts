@@ -26,7 +26,7 @@ echo "cleaning up $imageName"
 
 # keep the current and 4 previous versions.  This would be 7 lines in the
 # docker images command: header, 5 versions, and the latest version.
-docker images $imageName | sed '1,7d' | awk '{ print $2 }' |
+docker images $imageName | sed '1d' | awk '{ print $1 }' | awk -F: '$2 !~ "latest"{ print $2 }' | sort -r | sed '1,5d' |
     xargs -I % -n 1 sh -c "echo \"purging version %\"; docker rmi $imageName:%"
 
 
