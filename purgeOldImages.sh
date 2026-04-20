@@ -17,7 +17,7 @@ done
 
 if [ -n "$doAll" ]
 then
-    docker images --format json | jq '.Repository' | sort | uniq | xargs -n1 $0 -i
+    docker images --format '{{json .Repository}}' | sort | uniq | xargs -n1 $0 -i
     exit $?
 fi
 
@@ -26,7 +26,7 @@ echo "cleaning up $imageName"
 
 # keep the current and 4 previous versions.  This would be 7 lines in the
 # docker images command: header, 5 versions, and the latest version.
-docker images --format json $imageName | jq '.Tag' | grep -v latest | sort -r | sed '1,5d' | sed 's/"//g' |
+docker images --format '{{json .Tag}}' $imageName | grep -v latest | sort -r | sed '1,5d' | sed 's/"//g' |
     xargs -I % -n 1 sh -c "echo \"purging version %\"; docker rmi $imageName:%"
 
 

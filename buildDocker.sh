@@ -50,7 +50,7 @@ fi
 echo "building $imageName:$version"
 
 # does the image already exist?
-if docker images --format json $imageName | jq '.Tag' |  grep -Fq $version
+if docker images --format '{{json .Tag}}' $imageName | grep -Fq $version
 then
     if [ -z "$forceBuild" ]
     then
