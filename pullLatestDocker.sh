@@ -2,7 +2,7 @@
 
 digest() {
     image=$1
-    docker image inspect $image --format '{{json .RepoDigests}}'
+    docker image inspect $image --format '{{json .ID}}'
 }
 
 while getopts :i: OPTION
