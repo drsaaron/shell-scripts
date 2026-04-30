@@ -26,5 +26,6 @@ then
     exit 1
 fi
 
-value=$(grep "^ *<$tag>" ${pomFile:-pom.xml} | head -1 | sed -E -e "s%</?$tag>%%g" -e 's/ //g')
+value=$(xmllint --xpath '//*[local-name()="project"]/*[local-name()="'$tag'"]/text()' ${pomFile:-pom.xml})
+#value=$(grep "^ *<$tag>" ${pomFile:-pom.xml} | head -1 | sed -E -e "s%</?$tag>%%g" -e 's/ //g')
 echo $value
