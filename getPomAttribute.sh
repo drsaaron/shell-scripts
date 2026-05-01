@@ -28,11 +28,9 @@ fi
 
 # as this is a pom, root attribute is project.  If the caller has not specified that (older versions
 # of this script just supplied the tag which was assumed at the level under project) prefix that path
-# so the xpath expansion can work correctly.
-if ! echo $tag | egrep -q '^/project'
-then
-    tag="/project/$tag"
-fi
+# so the xpath expansion can work correctly.  Running with version and /project/version should yeild the
+# same result.
+echo $tag | egrep -q '^/project' || tag="/project/$tag"
 
 # convert the tag path to proper xpath with the pom peculiarities
 xpath=/$(echo $tag | sed -E 's%/([^/]+)%/*[local-name()="\1"]%g')
