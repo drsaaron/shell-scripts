@@ -24,8 +24,20 @@ if [ -z "$tag" ]
 then
     echo "usage: $0 [-p pomFile] <tag>" 1>&2
     exit 1
+fi 
+
+# as this is a pom, root attribute is project.  If the caller has not specified that (older versions
+# of this script just supplied the tag which was assumed at the level under project) prefix that path
+# so the xpath expansion can work correctly.
+if ! echo $tag | egrep -q '^/project'
+then
+    tag="/project/$tag"
 fi
 
-value=$(xmllint --xpath '//*[local-name()="project"]/*[local-name()="'$tag'"]/text()' ${pomFile:-pom.xml})
+# convert the tag path to proper xpath with the pom peculiarities
+xpath=/$(echo $tag | sed -E 's%/([^/]+)%/*[local-name()="\1"]%g')
+
+# find it.
+value=$(xmllint --xpath "$xpath/text()" ${pomFile:-pom.xml})
 #value=$(grep "^ *<$tag>" ${pomFile:-pom.xml} | head -1 | sed -E -e "s%</?$tag>%%g" -e 's/ //g')
 echo $value
