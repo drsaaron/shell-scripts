@@ -1,5 +1,7 @@
 #! /bin/sh
 
+# copy a docker images from localhost to $LAPTOP_IP to bypass using
+# the docker hub.
 while getopts :i: OPTION
 do
     case $OPTION in
