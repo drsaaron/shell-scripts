@@ -56,7 +56,7 @@ do
 	    then
 		pullLatestDocker.sh
 		buildDocker.sh
-		pushDocker.sh
+		deployDocker.sh
 	    fi
 	else
 	    echo "error building $project" 1>&2

@@ -16,19 +16,17 @@ done
 
 if [ -z "$imageName" ]
 then
-    if [ -f pom.xml ]
-    then
-	version=$(getPomAttribute.sh version | sed -e 's/-[A-Z]*$//')
-    elif [ -f package.json ]
-    then
-	version=$(getPackageJsonAttribute.sh version)
-    else
-	echo "unable to determine version" 1>&2
-	exit 1
-    fi
-
+    version=$(dockerImageVersion.sh)
     imageName=$(dockerImageName.sh):$version
 fi
 
+# sanity check that the image doesn't already exit
+if ssh $(whoami)@$LAPTOP_IP docker images --format "'{{json .Tag}}'" $imageName | grep -q $(echo $imageName | awk -F: '{ print $2 }')
+then
+    echo "image $imageName already on $LAPTOP_IP"
+    exit 1
+fi
+
+# go ahead and copy
 echo "copying $imageName to $LAPTOP_IP"
 docker save $imageName | gzip | ssh $(whoami)@$LAPTOP_IP "gunzip | docker load"

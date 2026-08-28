@@ -30,21 +30,7 @@ do
     esac
 done
 
-if [ -z "$version" ]
-then
-    if [ -f pom.xml ]
-    then
-	pomVersion=$(getPomAttribute.sh version)
-	version=${pomVersion%-[A-Z]*}
-    elif [ -f package.json ]
-    then
-	version=$(getPackageJsonAttribute.sh version)
-    else
-	echo "unable to determine version" 1>&2
-	exit 1
-    fi
-fi
-
+[ -z "$version" ] && version=$(dockerImageVersion.sh)
 [ -z "$imageName" ] && imageName=$(dockerImageName.sh)
 
 echo "building $imageName:$version"
