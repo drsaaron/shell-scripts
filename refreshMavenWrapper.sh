@@ -1,4 +1,4 @@
-#! /bin/sh 
+#! /bin/sh
 
 getMavenVersion() {
     grep '^Apache' | awk '{print $3}'
@@ -31,7 +31,7 @@ do
     # and $wrapperVersion, and sort such that the newer version is first.
     if [ "$version" != "$wrapperVersion" ]
     then
-	higherVersion=$(echo $version $wrapperVersion | tr ' ' '\n' | sort -r | head -1)
+	higherVersion=$(echo $version $wrapperVersion | tr ' ' '\n' | sort -rV | head -1)
 	if [ "$higherVersion" = "$version" ]
 	then
 	    echo "updating $wrapper to be $version (from $wrapperVersion)"
