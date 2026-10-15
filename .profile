@@ -84,6 +84,10 @@ LAPTOP_DIR=/run/user/1001/gvfs/smb-share:server=$LAPTOP_IP,share=$(whoami)
 # convenience alias to mount the laptop filesystem
 alias mntlaptop="gio mount smb://$LAPTOP_IP/scott"
 
+# flag for podman to handle users the same way docker did rather than having to specify --userns=keep-id on podman
+# command lines
+export PODMAN_USERNS="keep-id"
+
 # setup ssh
 function setupSshAgent {
     if [ -n "$SSH_CLIENT" ]
