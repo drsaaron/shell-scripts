@@ -73,8 +73,8 @@ PERL_MM_OPT="INSTALL_BASE=/home/scott/perl5"; export PERL_MM_OPT;
 # unique-ify the path
 PATH=$(uniqueList.sh "$PATH")
 
-# put the snap bin directory first in the list
-export PATH=/snap/bin:$PATH
+# put the snap bin directory first in the list, followed by my shell directory
+export PATH=/snap/bin:~/shell:$PATH
 
 export LAPTOP_IP=192.168.1.20
 alias laptop="ssh $(whoami)@$LAPTOP_IP"
@@ -87,6 +87,7 @@ alias mntlaptop="gio mount smb://$LAPTOP_IP/scott"
 # flag for podman to handle users the same way docker did rather than having to specify --userns=keep-id on podman
 # command lines
 export PODMAN_USERNS="keep-id"
+alias docker=podman
 
 # setup ssh
 function setupSshAgent {

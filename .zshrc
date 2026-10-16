@@ -98,6 +98,7 @@ plugins=(git
 	 docker
 	 mvn
 	 pass
+	 podman
 	)
 
 source $ZSH/oh-my-zsh.sh
