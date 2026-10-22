@@ -87,7 +87,7 @@ alias mntlaptop="gio mount smb://$LAPTOP_IP/scott"
 # flag for podman to handle users the same way docker did rather than having to specify --userns=keep-id on podman
 # command lines
 export PODMAN_USERNS="keep-id"
-[ "$(egrep ^VERSION_ID /etc/os-release | awk -F= '{ print $2 }' | sed -e 's/"//g' | awk -F. '{ print $1 }')" -gt "25" ] && alias docker=podman
+alias docker=podman
 
 # setup ssh
 function setupSshAgent {

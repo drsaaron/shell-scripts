@@ -21,17 +21,14 @@ then
 fi
 
 # sanity check that the image doesn't already exit
-if ssh $(whoami)@$LAPTOP_IP docker images --format "'{{json .Tag}}'" $imageName | grep -q $(echo $imageName | awk -F: '{ print $2 }')
+if ssh $(whoami)@$LAPTOP_IP podman images --format "'{{json .Tag}}'" $imageName | grep -q $(echo $imageName | awk -F: '{ print $2 }')
 then
     echo "image $imageName already on $LAPTOP_IP"
-  #  exit 1
+    exit 1
 fi
 
 # go ahead and copy
 echo "copying $imageName to $LAPTOP_IP"
-docker save $imageName | gzip | ssh $(whoami)@$LAPTOP_IP "gunzip | docker load"
+podman save $imageName | gzip | ssh $(whoami)@$LAPTOP_IP "gunzip | podman load"
 
-# because it's podman here and docker remotely, fix the name
-echo "fixing remote name"
-ssh $(whoami)@$LAPTOP_IP "docker tag localhost/$imageName $imageName; docker rmi localhost/$imageName"
 

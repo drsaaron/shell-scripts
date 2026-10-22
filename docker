@@ -1,17 +1,1 @@
-#! /bin/sh
-
-# wrap the docker command in a script that will use podman for newer ubuntu platforms
-# and classic docker for older.  The older platform is using a pretty old podman so I
-# will try to stick with docker there.
-
-osVersion=$(egrep ^VERSION_ID /etc/os-release | awk -F= '{ print $2 }' | sed -e 's/"//g' | awk -F. '{ print $1 }')
-if [ "$osVersion" -lt "25" ]
-then
-    impl=/bin/docker
-else
-    impl=podman
-fi
-
-# do the deed
-exec $impl "$@"
-
+/bin/podman
