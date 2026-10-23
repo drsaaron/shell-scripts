@@ -4,6 +4,8 @@
   
   vars:
     allowReboot: no
+    ansible_become_method: su
+    ansible_become_exe: "sudo su -"
 
   roles:
     - role: upgrade
