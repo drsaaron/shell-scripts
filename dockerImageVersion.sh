@@ -2,7 +2,8 @@
 
 if [ -f pom.xml ]
 then
-    version=$(getPomAttribute.sh version | sed -e 's/-[A-Z]*$//')
+    imageVersion=$(getPomAttribute.sh version)
+    version=${imageVersion%-*}
 elif [ -f package.json ]
 then
     version=$(getPackageJsonAttribute.sh version)
